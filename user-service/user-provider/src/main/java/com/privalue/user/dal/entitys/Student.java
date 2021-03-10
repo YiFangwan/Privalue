@@ -8,26 +8,22 @@ import javax.persistence.Table;
 import java.util.Date;
 
 @Data
-@Table(name = "teacher")
+@Table(name = "student")
 @ToString
-public class Teacher {
+public class Student {
 
     @Id
     private Integer id;
 
-    private String teacherCode;
+    private String stuCode;
 
-    private String teacherName;
+    private String stuName;
 
-    private Integer gender;
+    private Object gender;
 
     private Integer age;
 
     private String school;
-
-    private String nation;
-
-    private String phoneNumber;
 
     private Date createDate;
 
@@ -35,5 +31,7 @@ public class Teacher {
 
     private String remark;
 
-    private Boolean deleteFlag;
+    private String nation;
+
+    private Byte deleteFlag;
 }

@@ -6,14 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * description:
- * date: 2021/2/26 14:39   By HuTianYu
+ * description: 请求学生信息
+ * date: 2021/3/8 17:36   By HuTianYu
  */
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TeacherInfoRequest extends AbstractRequest {
+public class StudentInfoRequest extends AbstractRequest {
 
   private Integer id;
 
@@ -21,7 +21,6 @@ public class TeacherInfoRequest extends AbstractRequest {
   public void requestCheck() {
 
   }
-
 }
 
 

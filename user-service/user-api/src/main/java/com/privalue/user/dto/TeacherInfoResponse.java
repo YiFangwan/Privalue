@@ -1,9 +1,7 @@
 package com.privalue.user.dto;
 
 import com.privalue.commons.result.AbstractResponse;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -13,18 +11,17 @@ import java.util.Date;
  */
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class TeacherInfoResponse extends AbstractResponse {
+
   private Integer id;
 
   private String teacherCode;
 
   private String teacherName;
 
-  private String gender;
+  private Integer gender;
 
-  private String age;
+  private Integer age;
 
   private String nation;
 
@@ -35,6 +32,8 @@ public class TeacherInfoResponse extends AbstractResponse {
   private Date updateDate;
 
   private String remark;
+
+  private Boolean deleteFlag;
 
 }
 

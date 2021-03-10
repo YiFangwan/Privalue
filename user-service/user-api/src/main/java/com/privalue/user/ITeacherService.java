@@ -1,7 +1,6 @@
 package com.privalue.user;
 
-import com.privalue.user.dto.TeacherInfoRequest;
-import com.privalue.user.dto.TeacherInfoResponse;
+import com.privalue.user.dto.*;
 
 /**
  * description:
@@ -9,5 +8,11 @@ import com.privalue.user.dto.TeacherInfoResponse;
  */
 
 public interface ITeacherService {
-  TeacherInfoResponse getTeacherList(TeacherInfoRequest request);
+  TeacherInfoResponse getTeacherInfo(TeacherInfoRequest request);
+
+  TeacherRegisterResponse register(TeacherRegisterRequest request);
+
+  TeacherDeleteResponse delete(Integer id);
+
+  TeacherListResponse getTeacherList();
 }
