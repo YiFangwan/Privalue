@@ -21,11 +21,11 @@ public class TeacherAccount {
 
     private String password;
 
-    private String state;
+    private String accState;
 
     private Date createDate;
 
     private Date updateDate;
 
-    private Byte deleteFlag;
+    private boolean deleteFlag;
 }

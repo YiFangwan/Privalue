@@ -17,25 +17,14 @@
     <!--@mbg.generated-->
     id, student_id, account, `password`, `state`, create_date, update_date, delete_flag
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    <!--@mbg.generated-->
-    select 
-    <include refid="Base_Column_List" />
-    from student_account
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    <!--@mbg.generated-->
-    delete from student_account
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
+
   <insert id="insert" parameterType="com.privalue.user.dal.entitys.StudentAccount">
     <!--@mbg.generated-->
-    insert into student_account (id, student_id, account, 
-      `password`, `state`, create_date, 
+    insert into student_account (id, student_id, account,
+      `password`, `state`, create_date,
       update_date, delete_flag)
-    values (#{id,jdbcType=INTEGER}, #{studentId,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, 
-      #{password,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=INTEGER}, #{studentId,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR},
+      #{password,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP},
       #{updateDate,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.privalue.user.dal.entitys.StudentAccount">

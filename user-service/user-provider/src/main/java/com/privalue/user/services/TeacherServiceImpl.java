@@ -1,18 +1,22 @@
 package com.privalue.user.services;
 
+import com.privalue.commons.tool.exception.BizException;
 import com.privalue.user.ITeacherService;
 import com.privalue.user.constants.UserResultCode;
 import com.privalue.user.converter.TeacherConverter;
 import com.privalue.user.dal.entitys.Teacher;
+import com.privalue.user.dal.entitys.TeacherAccount;
 import com.privalue.user.dal.persistence.TeacherAccountMapper;
 import com.privalue.user.dal.persistence.TeacherMapper;
 import com.privalue.user.dto.*;
+import com.privalue.user.utils.ExceptionProcessorUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -49,17 +53,35 @@ public class TeacherServiceImpl implements ITeacherService {
    */
   @Override
   public TeacherRegisterResponse register(TeacherRegisterRequest request) {
-    TeacherRegisterResponse teacherRegisterResponse = new TeacherRegisterResponse();
-    Teacher teacher = teacherConverter.req2Teacher(request);
-    int insert = teacherMapper.insert(teacher);
-    if (insert == 1){
-      teacherRegisterResponse.setCode(UserResultCode.SUCCESS.getCode());
-      teacherRegisterResponse.setMsg(UserResultCode.SUCCESS.getMessage());
-    }else {
-      teacherRegisterResponse.setCode(UserResultCode.TEACHER_REGISTER_ERROR.getCode());
-      teacherRegisterResponse.setMsg(UserResultCode.TEACHER_REGISTER_ERROR.getMessage());
+
+    TeacherRegisterResponse response = new TeacherRegisterResponse();
+    try {
+      request.requestCheck();
+      Teacher teacher = teacherConverter.req2Teacher(request);
+      int insertTeacher = teacherMapper.insert(teacher);
+      if (insertTeacher != 1){
+        throw new BizException(UserResultCode.TEACHER_REGISTER_ERROR.getMessage());
+      }
+      TeacherAccount teacherAccount = new TeacherAccount();
+      teacherAccount.setTeacherId(teacher.getId());
+      teacherAccount.setAccount(teacher.getTeacherCode() + "@" + teacher.getSchool());
+      teacherAccount.setPassword("111111");
+      teacherAccount.setAccState("N");
+      teacherAccount.setCreateDate(new Date());
+      teacherAccount.setUpdateDate(new Date());
+      teacherAccount.setDeleteFlag(false);
+      int insertAccount = teacherAccountMapper.insert(teacherAccount);
+      if (insertAccount != 1){
+        throw new BizException(UserResultCode.TEACHER_ACCOUNT_CREATE_ERR.getMessage());
+      }
+      response.setCode(UserResultCode.SUCCESS.getCode());
+      response.setMsg(UserResultCode.SUCCESS.getMessage());
+    } catch (BizException e) {
+      log.error("教师注册失败" + e.getMessage());
+      ExceptionProcessorUtils.wrapperHandlerException(response,e);
+      e.printStackTrace();
     }
-    return teacherRegisterResponse;
+    return response;
   }
 
   @Override

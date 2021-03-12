@@ -8,7 +8,7 @@
     <result column="teacher_id" jdbcType="INTEGER" property="teacherId" />
     <result column="account" jdbcType="VARCHAR" property="account" />
     <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="state" jdbcType="VARCHAR" property="accState" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
     <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
     <result column="delete_flag" jdbcType="TINYINT" property="deleteFlag" />
@@ -17,26 +17,15 @@
     <!--@mbg.generated-->
     id, teacher_id, account, `password`, `state`, create_date, update_date, delete_flag
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    <!--@mbg.generated-->
-    select 
-    <include refid="Base_Column_List" />
-    from teacher_account
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    <!--@mbg.generated-->
-    delete from teacher_account
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
+
   <insert id="insert" parameterType="com.privalue.user.dal.entitys.TeacherAccount">
     <!--@mbg.generated-->
-    insert into teacher_account (id, teacher_id, account, 
-      `password`, `state`, create_date, 
+    insert into teacher_account (id,teacher_id, account,
+      `password`, acc_state, create_date,
       update_date, delete_flag)
-    values (#{id,jdbcType=INTEGER}, #{teacherId,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, 
-      #{password,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
-      #{updateDate,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=TINYINT})
+    values (#{id,jdbcType=INTEGER}, #{teacherId,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR},
+      #{password,jdbcType=VARCHAR}, #{accState,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP},
+      #{updateDate}, #{deleteFlag,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="com.privalue.user.dal.entitys.TeacherAccount">
     <!--@mbg.generated-->
@@ -54,7 +43,7 @@
       <if test="password != null">
         `password`,
       </if>
-      <if test="state != null">
+      <if test="accState != null">
         `state`,
       </if>
       <if test="createDate != null">
@@ -80,8 +69,8 @@
       <if test="password != null">
         #{password,jdbcType=VARCHAR},
       </if>
-      <if test="state != null">
-        #{state,jdbcType=VARCHAR},
+      <if test="accState != null">
+        #{accState,jdbcType=VARCHAR},
       </if>
       <if test="createDate != null">
         #{createDate,jdbcType=TIMESTAMP},
@@ -107,8 +96,8 @@
       <if test="password != null">
         `password` = #{password,jdbcType=VARCHAR},
       </if>
-      <if test="state != null">
-        `state` = #{state,jdbcType=VARCHAR},
+      <if test="accState != null">
+        `state` = #{accState,jdbcType=VARCHAR},
       </if>
       <if test="createDate != null">
         create_date = #{createDate,jdbcType=TIMESTAMP},
@@ -128,7 +117,7 @@
     set teacher_id = #{teacherId,jdbcType=INTEGER},
       account = #{account,jdbcType=VARCHAR},
       `password` = #{password,jdbcType=VARCHAR},
-      `state` = #{state,jdbcType=VARCHAR},
+      `state` = #{accState,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},
       update_date = #{updateDate,jdbcType=TIMESTAMP},
       delete_flag = #{deleteFlag,jdbcType=TINYINT}

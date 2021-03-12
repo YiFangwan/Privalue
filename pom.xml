@@ -13,6 +13,7 @@
         <module>gateway</module>
         <module>user-service</module>
         <module>privalue-commons</module>
+        <module>notice-service</module>
     </modules>
 
 

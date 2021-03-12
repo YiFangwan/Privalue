@@ -26,6 +26,7 @@ public class StudentController {
 
   @GetMapping("/studentInfo")
   public ResponseData getStudentInfo(StudentInfoRequest request){
+    // TODO: 2021/3/10  
 //    studentService.getStudentInfo(request.getId())
     return null;
 

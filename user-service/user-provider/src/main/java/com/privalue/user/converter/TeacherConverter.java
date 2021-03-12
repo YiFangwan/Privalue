@@ -21,8 +21,7 @@ public interface TeacherConverter {
 
   @Mappings({
       @Mapping(source = "id",target = "id"),
-      @Mapping(source = "teacherCode",target = "teacherCode")
-  })
+      @Mapping(source = "teacherCode",target = "teacherCode")})
   TeacherInfoResponse teacher2Res(Teacher teacher);
 
   @Mappings({})
@@ -30,6 +29,5 @@ public interface TeacherConverter {
 
   @Mappings({})
   List<TeacherListDto> teacher2List(List<Teacher> teacherList);
-
 
 }

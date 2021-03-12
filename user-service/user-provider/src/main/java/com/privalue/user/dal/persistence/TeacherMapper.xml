@@ -18,8 +18,17 @@
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, teacher_code, teacher_name, gender, age, nation, phone_number, create_date, update_date,
+    id, teacher_code, teacher_name, gender, age,school, nation, phone_number, create_date, update_date,
     remark, delete_flag
   </sql>
+
+  <insert id="insert" parameterType="Teacher" useGeneratedKeys="true" keyProperty="id">
+  insert into teacher(id,teacher_code,teacher_name,gender,age,school,nation,phone_number,create_date,update_date,
+  remark,delete_flag)
+  values (#{id,jdbcType=INTEGER}, #{teacherCode,jdbcType=VARCHAR}, #{teacherName,jdbcType=VARCHAR},
+          #{gender,jdbcType=INTEGER}, #{age,jdbcType=INTEGER}, #{school,jdbcType=VARCHAR},
+          #{nation,jdbcType=VARCHAR},#{phoneNumber,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP},
+          #{updateDate,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{deleteFlag,jdbcType=BOOLEAN})
+</insert>
 
 </mapper>

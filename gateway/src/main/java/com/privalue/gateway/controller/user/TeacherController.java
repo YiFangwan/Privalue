@@ -37,7 +37,7 @@ public class TeacherController {
   public ResponseData register(@RequestBody TeacherRegisterRequest request){
     log.debug("Add teacher" + request.getTeacherName());
     TeacherRegisterResponse register = teacherService.register(request);
-    if (register.getCode().equals(UserResultCode.SUCCESS)){
+    if (register.getCode().equals(UserResultCode.SUCCESS.getCode())){
       return new ResponseUtil<>().setData("ok");
     }
     return new ResponseUtil<>().setErrorMsg("插入教师信息错误");
