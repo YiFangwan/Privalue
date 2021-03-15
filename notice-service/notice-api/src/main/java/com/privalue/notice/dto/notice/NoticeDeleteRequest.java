@@ -1,4 +1,4 @@
-package com.privalue.notice.dto;
+package com.privalue.notice.dto.notice;
 
 import com.privalue.commons.result.AbstractRequest;
 import com.privalue.commons.tool.exception.ValidateException;

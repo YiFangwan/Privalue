@@ -17,7 +17,8 @@ public enum NoticeResultCode {
   DELETE_NOTICE_STATE_ERROR       ("02002","删除通知消息异常"),
   PARAM_TIME_ERROR                ("02003","输入时间不合法"),
   NOTICE_CONTENT_ERROR            ("02004","通知内容不能为空"),
-  CREATE_NOTICE_ERROR             ("02005","创建通知失败");
+  CREATE_NOTICE_ERROR             ("02005","创建通知失败"),
+  UPDATE_NOTICE_ERROR             ("02006","更新通知失败");
 
   private String code;
   private String message;

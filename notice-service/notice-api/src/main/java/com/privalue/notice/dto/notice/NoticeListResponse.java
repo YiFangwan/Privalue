@@ -1,4 +1,4 @@
-package com.privalue.notice.dto;
+package com.privalue.notice.dto.notice;
 
 import com.privalue.commons.result.AbstractResponse;
 import lombok.AllArgsConstructor;
@@ -16,6 +16,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class NoticeListResponse extends AbstractResponse {
+
+  private Integer count;
 
   private List<NoticeDto> noticeDtos;
 

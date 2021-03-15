@@ -1,6 +1,6 @@
 package com.privalue.notice;
 
-import com.privalue.notice.dto.*;
+import com.privalue.notice.dto.notice.*;
 
 /**
  * description:
@@ -15,4 +15,8 @@ public interface INoticeService {
   NoticeDeleteResponse deleteNotice(NoticeDeleteRequest request);
 
   NoticeCreateResponse createNotice(NoticeCreateRequest request);
+
+  NoticeCreateResponse updateNotice(NoticeModifyRequest request);
+
+  NoticeListResponse searchNotice(NoticeSearchRequest request);
 }

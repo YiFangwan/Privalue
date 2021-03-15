@@ -8,14 +8,14 @@ import com.privalue.notice.constants.NoticeState;
 import com.privalue.notice.converter.NoticeConverter;
 import com.privalue.notice.dal.entitys.Notice;
 import com.privalue.notice.dal.persistence.NoticeMapper;
-import com.privalue.notice.dto.*;
+import com.privalue.notice.dto.notice.*;
 import com.privalue.notice.utils.ExceptionProcessorUtils;
+import com.privalue.notice.utils.JudgeStateUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -39,8 +39,10 @@ public class NoticeServiceImpl implements INoticeService {
     NoticeListResponse response = new NoticeListResponse();
     try {
       request.requestCheck();
+      int count = noticeMapper.selectCount(NoticeState.DELETE.getState());
       PageHelper.startPage(request.getPage(),request.getSize());
-      List<NoticeDto> noticeDtos = noticeMapper.selectAll();
+      List<NoticeDto> noticeDtos = noticeMapper.selectAll(NoticeState.DELETE.getState());
+      response.setCount(count);
       response.setCode(NoticeResultCode.SUCCESS.getCode());
       response.setNoticeDtos(noticeDtos);
     } catch (Exception e) {
@@ -55,7 +57,8 @@ public class NoticeServiceImpl implements INoticeService {
     NoticePauseResponse response = new NoticePauseResponse();
     try {
       request.requestCheck();
-      int update = noticeMapper.updateStateByPrimaryKey(request.getNoticeId(), NoticeState.PAUSE.getState());
+      int update = noticeMapper.updateStateByPrimaryKey(request.getNoticeId(),
+          NoticeState.PAUSE.getState());
       if(update != 1){
         throw new BizException(NoticeResultCode.UPDATE_NOTICE_STATE_ERROR.getMessage());
       }
@@ -73,7 +76,8 @@ public class NoticeServiceImpl implements INoticeService {
   public NoticeDeleteResponse deleteNotice(NoticeDeleteRequest request) {
     NoticeDeleteResponse response = new NoticeDeleteResponse();
     try {
-      int delete = noticeMapper.updateStateByPrimaryKey(request.getNoticeId(), NoticeState.DELETE.getState());
+      int delete = noticeMapper.updateStateByPrimaryKey(request.getNoticeId(),
+          NoticeState.DELETE.getState());
       if (delete != 1){
         throw new BizException(NoticeResultCode.DELETE_NOTICE_STATE_ERROR.getMessage());
       }
@@ -93,15 +97,8 @@ public class NoticeServiceImpl implements INoticeService {
     try{
       request.requestCheck();
       Notice notice = noticeConverter.req2Notice(request);
-      Date date = new Date();
-      if (date.before(notice.getBeginDate())){
-        notice.setState(NoticeState.WAIT.getState());
-      }else if (date.after(notice.getEndDate())){
-        notice.setState(NoticeState.EXPIRE.getState());
-      }else {
-        notice.setState(NoticeState.ACTIVE.getState());
-      }
-      notice.setUpdateDate(date);
+      String state = JudgeStateUtils.judgeNoticeState(notice.getBeginDate(),notice.getEndDate());
+      notice.setState(state);
       int insert = noticeMapper.insert(notice);
       if (insert != 1){
         throw new BizException(NoticeResultCode.CREATE_NOTICE_ERROR.getCode());
@@ -110,6 +107,55 @@ public class NoticeServiceImpl implements INoticeService {
       response.setMsg(NoticeResultCode.SUCCESS.getMessage());
     }catch (Exception e){
       log.error("创建通知异常" + e);
+      ExceptionProcessorUtils.wrapperHandlerException(response,e);
+      e.printStackTrace();
+    }
+    return response;
+  }
+
+  @Override
+  public NoticeCreateResponse updateNotice(NoticeModifyRequest request) {
+    NoticeCreateResponse response = new NoticeCreateResponse();
+    try{
+      Notice notice = noticeConverter.req2Notice(request);
+      if (NoticeState.PAUSE.getState().equals(request.getState())){
+        notice.setState(NoticeState.PAUSE.getState());
+      }else {
+        notice.setState(JudgeStateUtils.judgeNoticeState(request.getBeginDate(),
+            request.getEndDate()));
+      }
+      int update = noticeMapper.updateByPrimaryKey(notice);
+      if (update != 1){
+        throw new BizException(NoticeResultCode.UPDATE_NOTICE_ERROR.getCode());
+      }
+      response.setCode(NoticeResultCode.SUCCESS.getCode());
+      response.setMsg(NoticeResultCode.SUCCESS.getMessage());
+    }catch (Exception e){
+      log.error("更新通知异常" + e);
+      ExceptionProcessorUtils.wrapperHandlerException(response,e);
+      e.printStackTrace();
+    }
+    return response;
+  }
+
+  @Override
+  public NoticeListResponse searchNotice(NoticeSearchRequest request) {
+    NoticeListResponse response = new NoticeListResponse();
+    try{
+      if (request.getKeyword() == null){
+        return getNoticeList(request);
+      }
+      int count = noticeMapper.selectCountByKeyword(request.getKeyword(),
+          NoticeState.DELETE.getState());
+      response.setCount(count);
+      PageHelper.startPage(request.getPage(), request.getSize());
+      List<NoticeDto> noticeDtos = noticeMapper.selectByKeyword(request.getKeyword(),
+          NoticeState.DELETE.getState());
+      response.setNoticeDtos(noticeDtos);
+      response.setCode(NoticeResultCode.SUCCESS.getCode());
+      response.setMsg(NoticeResultCode.SUCCESS.getMessage());
+    }catch (Exception e){
+      log.error("搜索通知异常" + e);
       ExceptionProcessorUtils.wrapperHandlerException(response,e);
       e.printStackTrace();
     }

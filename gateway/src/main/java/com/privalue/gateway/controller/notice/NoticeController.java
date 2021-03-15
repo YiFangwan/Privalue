@@ -4,7 +4,7 @@ import com.privalue.commons.result.ResponseData;
 import com.privalue.commons.result.ResponseUtil;
 import com.privalue.notice.INoticeService;
 import com.privalue.notice.constants.NoticeResultCode;
-import com.privalue.notice.dto.*;
+import com.privalue.notice.dto.notice.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -62,6 +62,27 @@ public class NoticeController {
   @PostMapping("/create")
   public ResponseData noticeCreate(@RequestBody NoticeCreateRequest request){
     NoticeCreateResponse response = noticeService.createNotice(request);
+    if (response.getCode().equals(NoticeResultCode.SUCCESS.getCode())){
+      return new ResponseUtil<>().setData(response);
+    }
+    return new ResponseUtil<>().setErrorMsg(response.getMsg());
+  }
+
+  @ApiOperation("修改通知")
+  @PutMapping("/noticeModify")
+  public ResponseData noticeModify(@RequestBody NoticeModifyRequest request){
+    NoticeCreateResponse response = noticeService.updateNotice(request);
+    if (response.getCode().equals(NoticeResultCode.SUCCESS.getCode())){
+      return new ResponseUtil<>().setData(response);
+    }
+    return new ResponseUtil<>().setErrorMsg(response.getMsg());
+  }
+
+  @ApiOperation("搜索通知")
+  @ApiImplicitParam(name = "keyword",value = "关键词",required = true)
+  @GetMapping("/noticeSearch")
+  public ResponseData noticeSearch(NoticeSearchRequest request){
+    NoticeListResponse response = noticeService.searchNotice(request);
     if (response.getCode().equals(NoticeResultCode.SUCCESS.getCode())){
       return new ResponseUtil<>().setData(response);
     }

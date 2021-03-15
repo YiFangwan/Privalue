@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.privalue.notice.dal.persistence.NoticeMapper">
-  <resultMap id="BaseResultMap" type="com.privalue.notice.dal.entitys.Notice">
+<mapper namespace="com.privalue.notice.dal.persistence.NewsMapper">
+  <resultMap id="BaseResultMap" type="com.privalue.notice.dal.entitys.News">
     <!--@mbg.generated-->
-    <!--@Table notice-->
-    <id column="notice_id" jdbcType="INTEGER" property="noticeId" />
+    <!--@Table news-->
+    <id column="news_id" jdbcType="INTEGER" property="newsId" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="state" jdbcType="VARCHAR" property="state" />
@@ -14,32 +14,33 @@
     <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
   </resultMap>
   <sql id="Base_Column_List">
-    notice_id, title, content, `state`, begin_date, end_date, creator, update_date
+    <!--@mbg.generated-->
+    news_id, title, content, `state`, begin_date, end_date, creator, update_date
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
-    select
+    select 
     <include refid="Base_Column_List" />
-    from notice
-    where notice_id = #{noticeId,jdbcType=INTEGER}
+    from news
+    where news_id = #{newsId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--@mbg.generated-->
-    delete from notice
-    where notice_id = #{noticeId,jdbcType=INTEGER}
+    delete from news
+    where news_id = #{newsId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" keyColumn="notice_id" keyProperty="noticeId" parameterType="com.privalue.notice.dal.entitys.Notice" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="news_id" keyProperty="newsId" parameterType="com.privalue.notice.dal.entitys.News" useGeneratedKeys="true">
     <!--@mbg.generated-->
-    insert into notice (title, content, `state`,
-      begin_date, end_date, creator,
+    insert into news (title, content, `state`, 
+      begin_date, end_date, creator, 
       update_date)
-    values (#{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR},
-      #{beginDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP}, #{creator,jdbcType=INTEGER},
-      now())
+    values (#{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, 
+      #{beginDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP}, #{creator,jdbcType=INTEGER}, 
+      #{updateDate,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" keyColumn="notice_id" keyProperty="noticeId" parameterType="com.privalue.notice.dal.entitys.Notice" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="news_id" keyProperty="newsId" parameterType="com.privalue.notice.dal.entitys.News" useGeneratedKeys="true">
     <!--@mbg.generated-->
-    insert into notice
+    insert into news
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="title != null">
         title,
@@ -87,9 +88,9 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.privalue.notice.dal.entitys.Notice">
+  <update id="updateByPrimaryKeySelective" parameterType="com.privalue.notice.dal.entitys.News">
     <!--@mbg.generated-->
-    update notice
+    update news
     <set>
       <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
@@ -113,61 +114,18 @@
         update_date = #{updateDate,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where notice_id = #{noticeId,jdbcType=INTEGER}
+    where news_id = #{newsId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.privalue.notice.dal.entitys.Notice">
+  <update id="updateByPrimaryKey" parameterType="com.privalue.notice.dal.entitys.News">
     <!--@mbg.generated-->
-        update notice
-        set title = #{title,jdbcType=VARCHAR},
-          content = #{content,jdbcType=VARCHAR},
-          `state` = #{state,jdbcType=VARCHAR},
-          begin_date = #{beginDate,jdbcType=TIMESTAMP},
-          end_date = #{endDate,jdbcType=TIMESTAMP},
-          update_date = now()
-        where notice_id = #{noticeId,jdbcType=INTEGER}
+    update news
+    set title = #{title,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      `state` = #{state,jdbcType=VARCHAR},
+      begin_date = #{beginDate,jdbcType=TIMESTAMP},
+      end_date = #{endDate,jdbcType=TIMESTAMP},
+      creator = #{creator,jdbcType=INTEGER},
+      update_date = #{updateDate,jdbcType=TIMESTAMP}
+    where news_id = #{newsId,jdbcType=INTEGER}
   </update>
-
-    <sql id="Select_With_As">
-    notice_id as noticeId , title, content, state , begin_date as beginDate,
-    end_date as endDate , creator , update_date as updateDate
-    </sql>
-
-    <select id="selectAll" resultType="com.privalue.notice.dto.notice.NoticeDto">
-    select
-    <include refid="Select_With_As"/>
-    from notice
-    where state != #{state}
-    order by notice_id desc
-    </select>
-
-    <update id="updateStateByPrimaryKey">
-      update notice
-      set state = #{state}
-      where notice_id = #{noticeId}
-    </update>
-
-    <select id="selectCount" resultType="int">
-      select count(*) from notice where state != #{state}
-    </select>
-
-    <select id="selectCountByKeyword" resultType="int">
-      select
-      count(*)
-      from notice
-      where state != #{state}
-      and
-      (title like concat('%',#{keyword},'%') or content like concat('%',#{keyword},'%'))
-    </select>
-
-    <select id="selectByKeyword" resultType="com.privalue.notice.dto.notice.NoticeDto">
-      select
-      <include refid="Select_With_As"/>
-      from notice
-      where state != #{state}
-      and
-      (title like concat('%',#{keyword},'%') or content like concat('%',#{keyword},'%'))
-      order by notice_id desc
-    </select>
-
-
 </mapper>
