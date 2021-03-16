@@ -2,13 +2,11 @@ package com.privalue.gateway.controller.user;
 
 import com.privalue.commons.result.ResponseData;
 import com.privalue.user.IStudentService;
-import com.privalue.user.dto.StudentInfoRequest;
+import com.privalue.user.dto.student.*;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * description:
@@ -26,11 +24,41 @@ public class StudentController {
 
   @GetMapping("/studentInfo")
   public ResponseData getStudentInfo(StudentInfoRequest request){
-    // TODO: 2021/3/10  
+    // TODO: 2021/3/10
 //    studentService.getStudentInfo(request.getId())
     return null;
-
   }
+
+  @GetMapping("/studentList")
+  public ResponseData getStudentList(){
+    // TODO: 2021/3/16
+    return null;
+  }
+
+  @PostMapping("/register")
+  public ResponseData register(@RequestBody StudentRegisterRequest request){
+    // TODO: 2021/3/16
+    return null;
+  }
+
+  @DeleteMapping("/delete")
+  public ResponseData studentDelete(StudentDeleteRequest request){
+    studentService.deleteStudent(request);
+    return null;
+  }
+
+  @PostMapping("/modify")
+  public ResponseData studentModify(@RequestBody StudentModifyRequest request){
+    // TODO: 2021/3/16
+    return null;
+  }
+
+  @PutMapping("resetPwd")
+  public ResponseData studentReset(StudentResetRequest request){
+    // TODO: 2021/3/16
+    return null;
+  }
+
 }
 
 

@@ -1,4 +1,4 @@
-package com.privalue.notice.dto.notice;
+package com.privalue.notice.dto.news;
 
 import com.privalue.commons.result.AbstractResponse;
 import lombok.Data;
@@ -9,7 +9,7 @@ import lombok.Data;
  */
 
 @Data
-public class NoticePauseResponse extends AbstractResponse{
+public class NewsPauseResponse extends AbstractResponse{
 
 }
 

@@ -1,6 +1,9 @@
 package com.privalue.notice.converter;
 
+import com.privalue.notice.dal.entitys.News;
 import com.privalue.notice.dal.entitys.Notice;
+import com.privalue.notice.dto.news.NewsCreateRequest;
+import com.privalue.notice.dto.news.NewsModifyRequest;
 import com.privalue.notice.dto.notice.NoticeCreateRequest;
 import com.privalue.notice.dto.notice.NoticeModifyRequest;
 import org.mapstruct.Mapper;
@@ -32,6 +35,20 @@ public interface NoticeConverter {
   Notice req2Notice(NoticeModifyRequest request);
 
 
+  @Mappings({
+      @Mapping(source = "title",target = "title"),
+      @Mapping(source = "content",target = "content"),
+      @Mapping(source = "beginDate",target = "beginDate"),
+      @Mapping(source = "endDate",target = "endDate")})
+  News req2News(NewsCreateRequest request);
+
+  @Mappings({
+      @Mapping(source = "newsId",target = "newsId"),
+      @Mapping(source = "title",target = "title"),
+      @Mapping(source = "content",target = "content"),
+      @Mapping(source = "beginDate",target = "beginDate"),
+      @Mapping(source = "endDate",target = "endDate")})
+  News req2News(NewsModifyRequest request);
 
 
 }

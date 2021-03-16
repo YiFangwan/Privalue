@@ -1,8 +1,9 @@
-package com.privalue.user.dto;
+package com.privalue.user.dto.teacher;
 
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * description:
@@ -18,7 +19,21 @@ public class TeacherListDto implements Serializable {
 
   private String teacherName;
 
+  private Integer gender;
+
+  private Integer age;
+
+  private String nation;
+
   private String phoneNumber;
+
+  private Date updateDate;
+
+  private String email;
+
+  private String department;
+
+  private String position;
 
 }
 

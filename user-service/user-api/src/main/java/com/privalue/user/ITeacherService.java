@@ -1,6 +1,6 @@
 package com.privalue.user;
 
-import com.privalue.user.dto.*;
+import com.privalue.user.dto.teacher.*;
 
 /**
  * description:
@@ -15,4 +15,10 @@ public interface ITeacherService {
   TeacherDeleteResponse delete(Integer id);
 
   TeacherListResponse getTeacherList();
+
+  TeacherModifyResponse teacherModify(TeacherModifyRequest request);
+
+  TeacherRestateResponse teacherRestate(TeacherRestateRequest request);
+
+  TeacherResetResponse resetPwd(TeacherResetRequest request);
 }

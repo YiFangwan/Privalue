@@ -123,4 +123,16 @@
       delete_flag = #{deleteFlag,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <update id="updateState">
+    update teacher_account
+    set state = #{state}
+    where teacher_id = #{id}
+  </update>
+
+  <update id="updatePwd">
+    update teacher_account
+    set password = #{pwd}
+    where teacher_id = #{id}
+  </update>
 </mapper>

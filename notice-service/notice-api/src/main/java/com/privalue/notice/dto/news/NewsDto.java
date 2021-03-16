@@ -1,8 +1,11 @@
 package com.privalue.notice.dto.news;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -11,12 +14,17 @@ import java.util.Date;
  */
 
 @Data
-public class NewsDto {
-  private Integer noticeId;
+@NoArgsConstructor
+@AllArgsConstructor
+public class NewsDto implements Serializable {
+
+  private Integer newsId;
 
   private String title;
 
   private String content;
+
+  private String brief;
 
   private String state;
 
@@ -28,6 +36,12 @@ public class NewsDto {
 
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "CST")
   private Date updateDate;
+
+  public void setContent(String content) {
+    this.content = content;
+    this.brief = content.replaceAll("<.*?>", "");
+  }
+
 }
 
 

@@ -8,7 +8,7 @@ import com.privalue.user.dal.entitys.Teacher;
 import com.privalue.user.dal.entitys.TeacherAccount;
 import com.privalue.user.dal.persistence.TeacherAccountMapper;
 import com.privalue.user.dal.persistence.TeacherMapper;
-import com.privalue.user.dto.*;
+import com.privalue.user.dto.teacher.*;
 import com.privalue.user.utils.ExceptionProcessorUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Service;
@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -101,14 +102,78 @@ public class TeacherServiceImpl implements ITeacherService {
   @Override
   public TeacherListResponse getTeacherList() {
     Example example = new Example(Teacher.class);
-    example.selectProperties("id","teacherCode","teacherName","phoneNumber")
+    example.selectProperties("id","teacherCode","teacherName","phoneNumber","gender",
+        "age","nation","updateDate","email","department","position")
         .createCriteria().andEqualTo("deleteFlag",0);
     List<Teacher> teachers = teacherMapper.selectByExample(example);
-    List<TeacherListDto> teacherListDtos = teacherConverter.teacher2List(teachers);
+    List<TeacherListDto> teacherListDtos = new LinkedList<>();
+    for (Teacher teacher : teachers) {
+      TeacherListDto teacherListDto = teacherConverter.teacher2List(teacher);
+      teacherListDtos.add(teacherListDto);
+    }
+//    List<TeacherListDto> teacherListDtos = teacherConverter.teacher2List(teachers);
     TeacherListResponse teacherListResponse = new TeacherListResponse();
     teacherListResponse.setTeacherListDtos(teacherListDtos);
     return teacherListResponse;
   }
+
+  @Override
+  public TeacherModifyResponse teacherModify(TeacherModifyRequest request) {
+    TeacherModifyResponse response = new TeacherModifyResponse();
+    try {
+      Teacher teacher = teacherConverter.req2Teacher(request);
+      int update = teacherMapper.updateByPrimaryKey(teacher);
+      if (update != 1){
+        throw new BizException(UserResultCode.ERROR.getMessage());
+      }
+      response.setCode(UserResultCode.SUCCESS.getCode());
+      response.setMsg(UserResultCode.SUCCESS.getMessage());
+    }catch (Exception e){
+      log.error("更新教师信息异常" + e);
+      ExceptionProcessorUtils.wrapperHandlerException(response,e);
+      e.printStackTrace();
+    }
+    return response;
+  }
+
+  @Override
+  public TeacherRestateResponse teacherRestate(TeacherRestateRequest request) {
+    TeacherRestateResponse response = new TeacherRestateResponse();
+    try{
+      int update = teacherAccountMapper.updateState(request.getState(), request.getTeacherId());
+      if (update != 1){
+        throw new BizException(UserResultCode.TEACHER_ACCOUNT_RESTATE_ERR.getCode());
+      }
+      response.setCode(UserResultCode.SUCCESS.getCode());
+      response.setMsg(UserResultCode.SUCCESS.getMessage());
+    }catch (Exception e){
+      log.error("重置教师账号状态失败");
+      ExceptionProcessorUtils.wrapperHandlerException(response,e);
+      e.printStackTrace();
+    }
+    return response;
+  }
+
+  @Override
+  public TeacherResetResponse resetPwd(TeacherResetRequest request) {
+    TeacherResetResponse response = new TeacherResetResponse();
+    try {
+      int update = teacherAccountMapper.updatePwd(request.getPassword(),
+          request.getTeacherId());
+      if (update != 1){
+        throw new BizException(UserResultCode.TEACHER_PWD_RESET_ERR.getCode());
+      }
+      response.setCode(UserResultCode.SUCCESS.getCode());
+      response.setMsg(UserResultCode.SUCCESS.getMessage());
+    }catch (Exception e){
+      log.error("重置教师密码错误");
+      ExceptionProcessorUtils.wrapperHandlerException(response,e);
+      e.printStackTrace();
+    }
+    return response;
+  }
+
+
 }
 
 

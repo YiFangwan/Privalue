@@ -1,15 +1,14 @@
 package com.privalue.user.converter;
 
 import com.privalue.user.dal.entitys.Teacher;
-import com.privalue.user.dto.TeacherInfoResponse;
-import com.privalue.user.dto.TeacherListDto;
-import com.privalue.user.dto.TeacherRegisterRequest;
+import com.privalue.user.dto.teacher.TeacherInfoResponse;
+import com.privalue.user.dto.teacher.TeacherListDto;
+import com.privalue.user.dto.teacher.TeacherModifyRequest;
+import com.privalue.user.dto.teacher.TeacherRegisterRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.ReportingPolicy;
-
-import java.util.List;
 
 /**
  * description:
@@ -27,7 +26,17 @@ public interface TeacherConverter {
   @Mappings({})
   Teacher req2Teacher(TeacherRegisterRequest registerRequest);
 
+  @Mappings({
+      @Mapping(source = "gender",target = "gender"),
+      @Mapping(source = "age",target = "age"),
+      @Mapping(source = "nation",target = "nation"),
+      @Mapping(source = "department",target = "department"),
+      @Mapping(source = "position",target = "position"),
+      @Mapping(source = "phoneNumber",target = "phoneNumber")
+  })
+  TeacherListDto teacher2List(Teacher teacher);
+
   @Mappings({})
-  List<TeacherListDto> teacher2List(List<Teacher> teacherList);
+  Teacher req2Teacher(TeacherModifyRequest request);
 
 }

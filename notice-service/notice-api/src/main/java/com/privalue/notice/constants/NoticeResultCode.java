@@ -12,13 +12,19 @@ public enum NoticeResultCode {
   ERROR                           ("10000","异常"),
 
   REQUEST_CHECK_FAILURE           ("01000","请求数据校验失败"),
+  PARAM_TIME_ERROR                ("01001","输入时间不合法"),
 
   UPDATE_NOTICE_STATE_ERROR       ("02001","更新通知状态异常"),
   DELETE_NOTICE_STATE_ERROR       ("02002","删除通知消息异常"),
-  PARAM_TIME_ERROR                ("02003","输入时间不合法"),
   NOTICE_CONTENT_ERROR            ("02004","通知内容不能为空"),
   CREATE_NOTICE_ERROR             ("02005","创建通知失败"),
-  UPDATE_NOTICE_ERROR             ("02006","更新通知失败");
+  UPDATE_NOTICE_ERROR             ("02006","更新通知失败"),
+
+  UPDATE_NEWS_STATE_ERROR       ("03001","更新通知状态异常"),
+  DELETE_NEWS_STATE_ERROR       ("03002","删除通知消息异常"),
+  NEWS_CONTENT_ERROR            ("03004","通知内容不能为空"),
+  CREATE_NEWS_ERROR             ("03005","创建通知失败"),
+  UPDATE_NEWS_ERROR             ("03006","更新通知失败");
 
   private String code;
   private String message;

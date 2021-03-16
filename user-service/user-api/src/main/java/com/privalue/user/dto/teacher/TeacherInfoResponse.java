@@ -1,4 +1,4 @@
-package com.privalue.user.dto;
+package com.privalue.user.dto.teacher;
 
 import com.privalue.commons.result.AbstractResponse;
 import lombok.Data;

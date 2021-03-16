@@ -12,6 +12,10 @@ public enum UserResultCode {
   /*教师统一错误码为  021*/
   TEACHER_REGISTER_ERROR    ("02100","教师注册失败"),
   TEACHER_ACCOUNT_CREATE_ERR("02101","教师账号添加失败"),
+  TEACHER_ACCOUNT_RESTATE_ERR("02102","重置教师账号状态失败"),
+  TEACHER_PWD_RESET_ERR      ("02103","重置教师密码失败"),
+
+
   TEACHER_NO_EXIST          ("02199","教师不存在");
 
 

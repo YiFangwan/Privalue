@@ -1,7 +1,11 @@
 package com.privalue.notice.dto.news;
 
 import com.privalue.commons.result.AbstractResponse;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 /**
  * description:
@@ -9,7 +13,13 @@ import lombok.Data;
  */
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class NewsListResponse extends AbstractResponse {
+
+  private Integer count;
+
+  private List<NewsDto> newsDtos;
 }
 
 

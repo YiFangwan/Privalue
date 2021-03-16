@@ -29,6 +29,12 @@ public class Teacher {
 
     private String phoneNumber;
 
+    private String email;
+
+    private String department;
+
+    private String position;
+
     private Date createDate;
 
     private Date updateDate;

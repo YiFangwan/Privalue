@@ -1,4 +1,4 @@
-package com.privalue.notice.dto.notice;
+package com.privalue.notice.dto.news;
 
 import com.privalue.commons.result.AbstractResponse;
 import lombok.Data;
@@ -8,7 +8,7 @@ import lombok.Data;
  * date: 2021/3/12 11:30   By HuTianYu
  */
 @Data
-public class NoticeDeleteResponse extends AbstractResponse {
+public class NewsDeleteResponse extends AbstractResponse {
 }
 
 

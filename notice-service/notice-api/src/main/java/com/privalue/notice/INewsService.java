@@ -1,7 +1,6 @@
 package com.privalue.notice;
 
-import com.privalue.notice.dto.news.NewsListRequest;
-import com.privalue.notice.dto.news.NewsListResponse;
+import com.privalue.notice.dto.news.*;
 
 /**
  * description:
@@ -10,4 +9,14 @@ import com.privalue.notice.dto.news.NewsListResponse;
 
 public interface INewsService {
   NewsListResponse getNewsList(NewsListRequest request);
+
+  NewsPauseResponse newsPause(NewsPauseRequest request);
+
+  NewsDeleteResponse deleteNotice(NewsDeleteRequest request);
+
+  NewsCreateResponse createNotice(NewsCreateRequest request);
+
+  NewsModifyResponse updateNotice(NewsModifyRequest request);
+
+  NewsListResponse searchNotice(NewsSearchRequest request);
 }

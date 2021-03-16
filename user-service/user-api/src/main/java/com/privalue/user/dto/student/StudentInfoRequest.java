@@ -1,4 +1,4 @@
-package com.privalue.user.dto;
+package com.privalue.user.dto.student;
 
 import com.privalue.commons.result.AbstractRequest;
 import lombok.AllArgsConstructor;

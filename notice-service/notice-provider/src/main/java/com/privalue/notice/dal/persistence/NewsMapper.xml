@@ -17,9 +17,14 @@
     <!--@mbg.generated-->
     news_id, title, content, `state`, begin_date, end_date, creator, update_date
   </sql>
+
+   <sql id="Select_With_As">
+    news_id as newsId, title, content, `state`, begin_date as beginDate,
+    end_date as endDate, creator, update_date as updateDate
+  </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
-    select 
+    select
     <include refid="Base_Column_List" />
     from news
     where news_id = #{newsId,jdbcType=INTEGER}
@@ -31,12 +36,12 @@
   </delete>
   <insert id="insert" keyColumn="news_id" keyProperty="newsId" parameterType="com.privalue.notice.dal.entitys.News" useGeneratedKeys="true">
     <!--@mbg.generated-->
-    insert into news (title, content, `state`, 
-      begin_date, end_date, creator, 
+    insert into news (title, content, `state`,
+      begin_date, end_date, creator,
       update_date)
-    values (#{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, 
-      #{beginDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP}, #{creator,jdbcType=INTEGER}, 
-      #{updateDate,jdbcType=TIMESTAMP})
+    values (#{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR},
+      #{beginDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP}, #{creator,jdbcType=INTEGER},
+      now())
   </insert>
   <insert id="insertSelective" keyColumn="news_id" keyProperty="newsId" parameterType="com.privalue.notice.dal.entitys.News" useGeneratedKeys="true">
     <!--@mbg.generated-->
@@ -125,7 +130,44 @@
       begin_date = #{beginDate,jdbcType=TIMESTAMP},
       end_date = #{endDate,jdbcType=TIMESTAMP},
       creator = #{creator,jdbcType=INTEGER},
-      update_date = #{updateDate,jdbcType=TIMESTAMP}
+      update_date = now()
     where news_id = #{newsId,jdbcType=INTEGER}
   </update>
+
+    <select id="selectCount" resultType="int">
+      select count(*) from news where state != #{state}
+    </select>
+
+    <select id="selectAll" resultType="com.privalue.notice.dto.news.NewsDto">
+      select
+      <include refid="Select_With_As"/>
+      from news
+      where state != #{state}
+      order by news_id desc
+    </select>
+
+    <update id="updateStateByPrimaryKey">
+      update news
+      set state = #{state}
+      where news_id = #{newsId}
+    </update>
+
+    <select id="selectCountByKeyword" resultType="int">
+      select
+      count(*)
+      from news
+      where state != #{state}
+      and
+      (title like concat('%',#{keyword},'%') or content like concat('%',#{keyword},'%'))
+    </select>
+
+    <select id="selectByKeyword" resultType="com.privalue.notice.dto.news.NewsDto">
+      select
+      <include refid="Select_With_As"/>
+      from news
+      where state != #{state}
+      and
+      (title like concat('%',#{keyword},'%') or content like concat('%',#{keyword},'%'))
+      order by news_id desc
+    </select>
 </mapper>

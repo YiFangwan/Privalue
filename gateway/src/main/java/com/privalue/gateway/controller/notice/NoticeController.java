@@ -37,7 +37,7 @@ public class NoticeController {
   }
 
   @ApiOperation("暂停发布通知")
-  @PutMapping("/pausePublish")
+  @PutMapping("/noticePause")
   @ApiImplicitParam(name = "noticeId",value = "通知ID",required = true)
   public ResponseData pausePublish(NoticePauseRequest request){
     NoticePauseResponse response = noticeService.pausePublish(request);
@@ -48,7 +48,7 @@ public class NoticeController {
   }
 
   @ApiOperation("删除通知")
-  @DeleteMapping("/deletePublish")
+  @DeleteMapping("/noticeDelete")
   @ApiImplicitParam(name = "noticeId",value = "通知ID",required = true)
   public ResponseData deletePublish(NoticeDeleteRequest request){
     NoticeDeleteResponse response = noticeService.deleteNotice(request);
@@ -59,7 +59,7 @@ public class NoticeController {
   }
 
   @ApiOperation("创建通知")
-  @PostMapping("/create")
+  @PostMapping("/noticeCreate")
   public ResponseData noticeCreate(@RequestBody NoticeCreateRequest request){
     NoticeCreateResponse response = noticeService.createNotice(request);
     if (response.getCode().equals(NoticeResultCode.SUCCESS.getCode())){
